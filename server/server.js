@@ -22,17 +22,17 @@ io.on('connection', client => {
     function handleJoinGame(roomName) {
         //console.log(roomName);
         // find room with room name
-        const room = io.sockets.adapter.rooms[roomName];
+        const room = io.sockets.adapter.rooms.get(roomName);
 
         let allUsers;
         if (room) {
             // object of all current users in the room
-            allUsers = room.sockets;
+            allUsers = io.sockets.adapter.rooms.get(roomName).size;
         }
 
         let numClients = 0;
         if (allUsers) {
-            numClients = Object.keys(allUsers).length;
+            numClients = allUsers;
             console.log('client number: ' + numClients);
         }
 
@@ -58,6 +58,8 @@ io.on('connection', client => {
         let roomName = makeId(5);
         clientRooms[client.id] = roomName;
         client.emit('gameCode', roomName);
+        console.log('client.id: ');
+        console.log(client.id);
         
         // generate room name and send it back to client
         state[roomName] = initGame();
