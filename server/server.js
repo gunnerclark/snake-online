@@ -20,7 +20,6 @@ io.on('connection', client => {
     client.on('joinGame', handleJoinGame);
 
     function handleJoinGame(roomName) {
-        //console.log(roomName);
         // find room with room name
         const room = io.sockets.adapter.rooms.get(roomName);
 
@@ -58,8 +57,6 @@ io.on('connection', client => {
         let roomName = makeId(5);
         clientRooms[client.id] = roomName;
         client.emit('gameCode', roomName);
-        console.log('client.id: ');
-        console.log(client.id);
         
         // generate room name and send it back to client
         state[roomName] = initGame();
